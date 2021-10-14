@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.F21_Week5Project">
         <activity
+            android:name=".RecyclerToDoList"
+            android:exported="true" />
+        <activity
             android:name=".AddNewTodoActivity"
             android:exported="true" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

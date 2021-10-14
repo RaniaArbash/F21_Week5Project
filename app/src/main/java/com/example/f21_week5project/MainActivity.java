@@ -15,7 +15,10 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
         todoList = (ListView) findViewById(R.id.simpleListView);
          adapter = new TodoAdapter(this, listOfDodos);
         todoList.setAdapter(adapter);
+
+        todoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),listOfDodos.get(i).task,Toast.LENGTH_LONG).show();
+            }
+        });
+
+
 
 
         newToDOActivityResultLauncher = registerForActivityResult(
@@ -82,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
                  break;
              }
+             case R.id.recyclerID:{
+                 Intent myIntent = new Intent(this,RecyclerToDoList.class);
+                 Bundle bundle = new Bundle();
+                 bundle.putParcelableArrayList("todolist",listOfDodos);
+                 myIntent.putExtra("bundle",bundle);
+                 startActivity(myIntent);
+             }
+
              case R.id.cancel:{
 
                  break;
