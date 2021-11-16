@@ -39,14 +39,12 @@ public class TodoAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.todo_list_row,null);
         }
 
-       TextView taskText= (TextView) view.findViewById(R.id.task);
+        TextView taskText= (TextView) view.findViewById(R.id.task);
         TextView dateText = (TextView) view.findViewById(R.id.task_date);
 
         taskText.setText(toDos.get(i).task);
         dateText.setText(toDos.get(i).date);
 
         return  view;
-
-
     }
 }

@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -12,11 +11,9 @@ import java.util.ArrayList;
 public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapter.viewHolder> {
     ArrayList<ToDo> listOfToDos;
     Context mContext;
-
     public interface OnItemClickListner{
         void onToDoClicked(ToDo item);
     }
-
     private final OnItemClickListner listner;
 
     public ToDoRecyclerAdapter(ArrayList<ToDo> listOfToDos, Context context,OnItemClickListner listnerFromActivity) {

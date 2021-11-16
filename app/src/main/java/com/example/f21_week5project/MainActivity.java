@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,24 +27,27 @@ public class MainActivity extends AppCompatActivity {
     ListView todoList;
     //public ActivityResultLauncher<Intent> addToDoActivityResultLauncher;
     TodoAdapter adapter;
-    ArrayList<ToDo> listOfDodos;
+    ArrayList<ToDo> listOfDodos = new ArrayList<>(0);
      ActivityResultLauncher<Intent> newToDOActivityResultLauncher;
-
+    StorageManager storageManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (savedInstanceState == null)
-            listOfDodos = new ArrayList<>(1);
-        else
-            listOfDodos = savedInstanceState.getParcelableArrayList("listoftasks");
-
-
+        storageManager = ((myApp) getApplication()).getStorageManager();
         todoList = (ListView) findViewById(R.id.simpleListView);
+        ExternalStorageManager esmanager = ((myApp)getApplication()).getEStorageManger();
+        esmanager.saveNewTaskPrivateExternal(this, new ToDo("task to external","today"));
+        esmanager.saveNewTaskPrivateExternal(this, new ToDo("task to external2","tomorrow"));
+
+        String tasksFromEStorage = esmanager.getTasksFromPrivateExternal(this);
+
+
+        listOfDodos = storageManager.getTasksFromInternalPrivateFile(MainActivity.this);
          adapter = new TodoAdapter(this, listOfDodos);
         todoList.setAdapter(adapter);
+
 
         todoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                             Bundle extra = data.getExtras();
                             ToDo newTodo =  extra.getParcelable("newTodo");
                             listOfDodos.add(newTodo);
+                            storageManager.saveNewToDOInInternalPrivateFile(MainActivity.this,newTodo);
                             adapter.toDos = listOfDodos;
                             adapter.notifyDataSetChanged();
                         }
@@ -86,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
          super.onOptionsItemSelected(item);
          switch (item.getItemId()){
              case R.id.addNewTod:{
-                    // start add new todo activity for result
-                 //startActivityForResult
-                 // We need the new object (todo)
+
                  Intent myIntent = new Intent(this,AddNewTodoActivity.class);
                  newToDOActivityResultLauncher.launch(myIntent);
 
@@ -101,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
                  myIntent.putExtra("bundle",bundle);
                  startActivity(myIntent);
              }
-
+             case R.id.reset:{
+                 storageManager.resetTheStorage(MainActivity.this);
+                 adapter.notifyDataSetChanged();
+             }
              case R.id.cancel:{
 
                  break;

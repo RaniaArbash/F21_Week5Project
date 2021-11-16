@@ -12,6 +12,24 @@ public class ToDo implements Parcelable {
         this.date = date;
     }
 
+    public String toString(){
+        return this.task + "-" + this.date;
+    }
+
+    // fix the door - Nov 11, 2021
+    // task
+    // date
+    public static ToDo toTask(String task_string){
+        String t = "",d = "";
+        for (int i = 0 ; i< task_string.toCharArray().length;i++) {
+            if (task_string.toCharArray()[i] == '-') {
+                t = task_string.substring(0,i);
+                d = task_string.substring(i+1, task_string.toCharArray().length);
+            }
+        }
+       return new ToDo(t,d);
+
+    }
     protected ToDo(Parcel in) {
         task = in.readString();
         date = in.readString();

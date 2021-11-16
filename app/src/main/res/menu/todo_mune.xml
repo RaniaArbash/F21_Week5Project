@@ -3,5 +3,5 @@
 <item android:id="@+id/addNewTod" android:title="Add New Task"></item>
 <item android:title="Recycler List" android:id="@+id/recyclerID"/>
     <item android:id="@+id/cancel" android:title="Exit The App"></item>
-
+<item android:id="@+id/reset" android:title="Delete All Tasks"/>
 </menu>

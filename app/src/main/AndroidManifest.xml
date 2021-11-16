@@ -3,6 +3,7 @@
     package="com.example.f21_week5project">
 
     <application
+        android:name=".myApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
